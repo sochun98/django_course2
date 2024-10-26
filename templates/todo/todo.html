@@ -1,0 +1,26 @@
+<h1>Todo List</h1>
+django template
+<br><br>
+{{ todos }}
+<br><br>
+{% for todo in todos %}
+    {{ todo }} {% comment %} __str__ -> name {% endcomment %}
+    <br>
+    <!-- {{ todo.name }} -->
+    <!-- <br> -->
+    {{ todo.description }}
+    <br>
+    {{ todo.complete }}
+    <br>
+    {{ todo.created_at }}
+    <br>
+    {{ todo.updated_at }}
+    <br><br>
+{% endfor %}
+
+<br><br>
+{{ todo }}
+<br><br>
+{{ first }}
+<br><br>
+{{ last }}
