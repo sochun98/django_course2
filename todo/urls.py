@@ -1,9 +1,14 @@
-from django.urls import path
-from todo.apis import TodoCreateAPI, TodoDeleteAPI, TodoGenericsCreateAPI, TodoGenericsDeleteAPI, TodoGenericsListAPI, TodoGenericsListCreateAPI, TodoGenericsRetrieveAPI, TodoGenericsRetrieveUpdateDeleteAPI, TodoGenericsUpdateAPI, TodoListAPI, TodoRetrieveAPI, TodoUpdateAPI
+from django.urls import include, path
+from todo.apis import TodoCreateAPI, TodoDeleteAPI, TodoGenericsCreateAPI, TodoGenericsDeleteAPI, TodoGenericsListAPI, TodoGenericsListCreateAPI, TodoGenericsRetrieveAPI, TodoGenericsRetrieveUpdateDeleteAPI, TodoGenericsUpdateAPI, TodoListAPI, TodoRetrieveAPI, TodoUpdateAPI, TodoViewSet
 from todo.views import todo_list, todo_detail, todo_detail_name
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register("", TodoViewSet)
 
 # 127.0.0.1:8000/todo/
 urlpatterns = [
+    path("viewsets/", include(router.urls)),
     path("generics/", TodoGenericsListCreateAPI.as_view()),
     path("generics/<int:pk>/", TodoGenericsRetrieveUpdateDeleteAPI.as_view()),
     path("generics/create/", TodoGenericsCreateAPI.as_view()),
