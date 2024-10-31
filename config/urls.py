@@ -14,6 +14,7 @@ urlpatterns = [
     path('', hello_world),
     path('json/', hello_world_json),
     path("todo/", include("todo.urls")),
+    path("api/todo/", include("todo.api_urls")),
     path("random/template/", RandomNumberTemplateView.as_view()),
     path("random/view/", RandomNumberView.as_view()),
-]
+] 
