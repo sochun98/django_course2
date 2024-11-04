@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register("", TodoViewSet)
 
-# 127.0.0.1:8000/todo/
+# 127.0.0.1:8000/api/todo/
 urlpatterns = [
     # APIS
     path("viewsets/", include(router.urls)),
