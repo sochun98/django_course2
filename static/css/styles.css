@@ -84,12 +84,22 @@ h1 {
     background-color: #007bff;
     color: #fff;
     padding: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header h1 {
     margin: 0;
     font-size: 24px;
+}
+
+.header .user-actions {
+    display: flex;
+}
+
+.header .user-actions a {
+    color : #fff;
+    margin-left: 10px;
 }
 
 .footer {
@@ -129,4 +139,19 @@ h1 {
 .pagination .disabled {
     color: #888;
     pointer-events: none;
+}
+
+.todohead {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current-page {
+    margin-right: 10px; /* 원하는 경우 오른쪽 여백을 추가 */
 }

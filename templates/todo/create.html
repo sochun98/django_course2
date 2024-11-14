@@ -29,7 +29,7 @@
     <script>
         // 버튼이 클릭된다면
         $("#todoCreate").on("click", function(){
-            axiosInstance.post("/api/todo/create/", {
+            axiosInstance.post("/api/todo/viewsets/", {
                 name: $("#name").val(),
                 description: $("#description").val(),
                 complete: $("#complete").prop("checked"),

@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from todo.models import Todo
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def todo_list(request):
@@ -35,7 +36,7 @@ class TodoCreateView(View):
         return render(request, "todo/create.html")
 
 
-class TodoListView(View):
+class TodoListView(LoginRequiredMixin, View):
 
     def get(self, request):
         # todos = Todo.objects.all()

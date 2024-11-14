@@ -2,9 +2,12 @@
 
 {% block content %}
 
+<div class="todohead">
+
+</div>
+
 <div class="todocontainer">
-    <h1> Todo List </h1>
-    <button class="todoCreate" onclick="window.location.href='/todo/create/'">Todo 등록하기</button>
+    
 </div>
 
 <div class="pagination">
@@ -20,7 +23,6 @@
         $(".todocontainer").empty();
         axiosInstance.get(`/api/todo/viewsets/?page=${page}`)
         .then(function(response){
-            // console.log(response.data)
             for (var i = 0; i < response.data.data.length; i++){
                 var todo = response.data.data[i]
                 var todoElement = ``
@@ -51,16 +53,17 @@
             // 페이징 링크 생성
             var pagination = response.data;
             var pageLinks = "";
+            var currentPage = pagination.current_page;
 
             if (pagination.page_count > 1) {
                 var currentPage = pagination.current_page;
                 var totalPages = pagination.page_count;
                 var maxDisplayedPages = 10;
-
+                
                 var startPage = Math.max(1, currentPage - 5);
                 var endPage = Math.min(totalPages, currentPage + 5);
 
-                if (currentPage = startPage < 5) {
+                if (currentPage - startPage < 5) {
                     endPage = Math.min(endPage + (5 - (currentPage - startPage)), totalPages);
                 }
                 if (endPage - currentPage < 5) {
@@ -72,6 +75,13 @@
                 }
                 $(".pagination").html(pageLinks);
             }
+            // 헤드 내용
+            var todoheadcontent = `
+            <h1> Todo List </h1>
+            <button class="todoCreate" onclick="window.location.href='/todo/create/'">Todo 등록하기</button>
+            <span class="current-page">현재 페이지: ${currentPage}</span>
+            `;
+            $(".todohead").html(todoheadcontent);
         })
         .catch(function(error){
             console.log(error);
@@ -86,7 +96,8 @@
             complete: true
         })
         .then(function(response) {
-            window.location.reload();
+            // window.location.reload();
+            loadTodoList(currentPage);
         })
     }
 

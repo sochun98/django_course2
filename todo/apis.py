@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from todo.models import Todo
 from todo.serializers import TodoSerializer
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 class TodoCreateAPI(APIView):
@@ -92,6 +94,44 @@ class TodoGenericsRetrieveUpdateDeleteAPI(generics.RetrieveUpdateDestroyAPIView)
     serializer_class = TodoSerializer
 
 
+# 개인화된 API
 class TodoViewSet(viewsets.ModelViewSet):
     queryset = Todo.objects.all().order_by("-created_at")
     serializer_class = TodoSerializer
+    # authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+
+    # 본인의 todo만 조회, listapi, retrieveapi, destroyapi
+    def get_queryset(self):
+        queryset = self.queryset
+        user = self.request.user
+        return queryset.filter(user=user)
+    
+    def perform_create(self, serializer):
+        instance = serializer.save(user=self.request.user)
+        return instance
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        todo = self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def perform_update(self, serializer):
+        instance = serializer.save(user=self.request.user)
+        return instance
+
+    def update(self, request, *args, **kwargs):
+        user = request.user
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        todo = self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+        
+        return Response(serializer.data)
