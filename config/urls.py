@@ -12,11 +12,11 @@ from config.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', hello_world),
-    path('json/', hello_world_json),
     path("todo/", include("todo.urls")),
     # 127.0.0.1:8000/api-auth/login/
     # 127.0.0.1:8000/api-auth/logout/ -> session flush
     path("api-auth/", include("rest_framework.urls")),
+    path("api/brand/", include("brand.api_urls")),
     path("api/todo/", include("todo.api_urls")),
     path("random/template/", RandomNumberTemplateView.as_view()),
     path("random/view/", RandomNumberView.as_view()),
