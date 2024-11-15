@@ -16,6 +16,7 @@ urlpatterns = [
     # 127.0.0.1:8000/api-auth/login/
     # 127.0.0.1:8000/api-auth/logout/ -> session flush
     path("api-auth/", include("rest_framework.urls")),
+    path("api/product/", include("product.api_urls")),
     path("api/brand/", include("brand.api_urls")),
     path("api/todo/", include("todo.api_urls")),
     path("random/template/", RandomNumberTemplateView.as_view()),
